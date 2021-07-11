@@ -1,7 +1,7 @@
 
 // set the dimensions and margins of the graph
-var margin = { top: 10, right: 30, bottom: 30, left: 60 },
-    width = 460 - margin.left - margin.right,
+var margin = { top: 10, right: 30, bottom: 60, left: 60 },
+    width = 660 - margin.left - margin.right,
     height = 400 - margin.top - margin.bottom;
 
 // append the svg object to the body of the page
@@ -24,12 +24,12 @@ d3.csv("data.csv", function (data) {
     svg.append("g")
         .attr("transform", "translate(0," + height + ")")
         .call(d3.axisBottom(x))
-       
-    // svg.append("text")
-    //     .attr("class", "x label")
-    //     .attr("x", width)
-    //     .attr("y", height )
-    //     .text("Healthcare");
+    svg.append("text")             
+        .attr("transform",
+              "translate(" + (width/2) + " ," + 
+                             (height + margin.top + 30) + ")")
+        .style("text-anchor", "middle")
+        .text("Lack Healthcare (%)");   
 
     // Add Y axis
     var y = d3.scaleLinear()
@@ -37,6 +37,13 @@ d3.csv("data.csv", function (data) {
         .range([height, 0]);
     svg.append("g")
         .call(d3.axisLeft(y));
+    svg.append("text")
+        .attr("transform", "rotate(-90)")
+        .attr("y", 0 - margin.left)
+        .attr("x",0 - (height / 2))
+        .attr("dy", "1em")
+        .style("text-anchor", "middle")
+        .text("In Poverty (%)");   
 
     console.log('dots for data!!', data)
     // Add dots
@@ -50,8 +57,8 @@ d3.csv("data.csv", function (data) {
             return x(parseFloat(d.healthcare));
         })
         .attr("cy", function (d) { return y(parseFloat(d.poverty)); })
-        .attr("r", 20)
-        .style("fill", "#69b3a2")
+        .attr("r", 12)
+        .style("fill", "#83a8c3")
 
 
     svg.append('g')
@@ -62,12 +69,13 @@ d3.csv("data.csv", function (data) {
             return d.abbr;
         })
         .attr("x", function (d) {
-            return x(parseFloat(d.healthcare) - 0.7);
+            return x(parseFloat(d.healthcare) - 0.4);
         })
         .attr("y", function (d) {
             return y(parseFloat(d.poverty) - 0.3);
         })
-        .style("font-size","10px");
+        .style("font-size","10px")
+        .attr("fill", "white");
 
 
 })
